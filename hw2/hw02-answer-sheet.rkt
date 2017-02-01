@@ -36,20 +36,64 @@ the default definitions will have to be present!
 ;;for n > 0
 ;Sn = 1/1 + 1/4 + 1/9 + 1/16 + ...
 (define (series-a n)
-  'UNIMPLEMETED
+  (if (> n 0)
+      (+ (/ 1 (* n n)) (series-a (- n 1)))
+      0
+  )
 )
 
 ;====
 ;;for n >= 0
 ;Sn = 1 - 1/2 + 1/6 - 1/24 + ...
 (define (series-b n)
-  'UNIMPLEMETED
+  (if (= n 0)
+      1
+      (+ (/ (expt -1 n) (! (+ n 1))) (series-b (- n 1)))
+   )
+)
+
+(define (! n)
+  (if (= n 1)
+      1
+      (* n (! (- n 1)))
+  )
 )
 
 ;======================================03=======================================
 (define (carpet n)
-  'UNIMPLEMENTED  
+  (if (= n 0)
+      '((%))
+      (add-top-bom      
+       (expand-each-line (carpet (- n 1)) (decide-sym n))
+       n) ))
+
+(define (decide-sym n)
+  (if (odd? n)
+      '+
+      '%))
+
+(define (expand-each-line carp sym) ;sym=> %, or +
+  (if (null? carp)
+      '()
+       (cons (append  (cons sym (car carp) ) (list sym)) ; expanded first line
+        (expand-each-line (cdr carp) sym)))  ; expanded the rest of the carpet except for the first line
+  )
+
+(define (add-top-bom carp n)
+  (append (cons (compose-top n) carp)
+          (list (compose-top n))))
+
+(define (compose-top n)
+  (compose-helper (decide-sym n) n)
 )
+
+(define (compose-helper sym n)
+  (if (= n 0)
+      (list sym)
+      (cons sym (cons sym (compose-helper sym (- n 1))))
+  )
+)
+
 
 ;======================================04=======================================
 (define (pascal n)
