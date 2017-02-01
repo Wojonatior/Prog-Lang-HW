@@ -97,9 +97,25 @@ the default definitions will have to be present!
 
 ;======================================04=======================================
 (define (pascal n)
- 'UNIMPLEMENTED  
-)
+  (if (= n 1)
+      `((1))
+      (insert (new-last-row (last (pascal (- n 1))))
+              (pascal (- n 1)))))
 
+(define (new-last-row old-last-row)
+  (new-last-row-endings (new-last-row-core old-last-row)))
+  
+(define (new-last-row-core old-last-row) ;Builds core of new row given last row
+  (if (= 1 (length old-last-row))
+      `()
+      (cons (+ (second old-last-row) (first old-last-row))
+            (new-last-row-core (cdr old-last-row)))))
+
+(define (new-last-row-endings core)
+  (append (cons 1 core) `(1)))
+
+(define (insert line pascal)
+  (append pascal (list line)))
 ;======================================05=======================================
 (define (balanced? in)
   'UNIMPLEMENTED  
