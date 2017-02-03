@@ -118,15 +118,33 @@ the default definitions will have to be present!
   (append pascal (list line)))
 ;======================================05=======================================
 (define (balanced? in)
-  'UNIMPLEMENTED  
+  'UNIMPLEMENTED
+  ;Recursively build an opening list and a closing list,
+  ;Then compare each element in each of them until they're both closed or one has remainders
 )
 
 ;======================================06=======================================
 (define (list-of-all? predicate lst)
-  'UNIMPLEMENTED  
+  (if (= (length lst) 0)
+      #t
+      (and (predicate (car lst))
+           (list-of-all? predicate (cdr lst))))
 )
 
 ;======================================07=======================================
 (define (create-mapping keys vals)
-  'UNIMPLEMENTED  
+  (if (= (length keys) (length vals))
+      (if (list-of-all? symbol? keys)
+          (lambda(sym)
+            (key-finder sym keys vals))
+          (raise "The keys are not all symbols."))
+      (raise "The lists are not of equal length."))
+)
+  
+(define (key-finder key keys vals)
+  (if (= 0 (length keys))
+      (raise (string-append "Could not find mapping for symbol '" (symbol->string key)))
+      (if (eq? key (car keys))
+          (car vals)
+          (key-finder key (cdr keys) (cdr vals))))
 )
