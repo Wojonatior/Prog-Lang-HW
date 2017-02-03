@@ -118,10 +118,21 @@ the default definitions will have to be present!
   (append pascal (list line)))
 ;======================================05=======================================
 (define (balanced? in)
-  'UNIMPLEMENTED
-  ;Recursively build an opening list and a closing list,
-  ;Then compare each element in each of them until they're both closed or one has remainders
+  (paren-counter (string->list in) 0)
 )
+
+ (define (paren-counter in counter)
+   (if (= counter -1)
+       #f
+       (if (= (length in) 0) ;If the list is empty
+           (if (= counter 0) 
+               #t ;And the counter = 0, then it's balanced
+               #f )
+           (if (equal? (car in) "(")
+               (paren-counter (cdr in) (+ counter 1)) ;Increment counter if opening
+               (if (equal? (car in) ")")
+                   (paren-counter (cdr in) (- counter 1)) ;Decrement counter if closing
+                   (paren-counter (cdr in) counter)))))) ;Do nothing if it's a different char
 
 ;======================================06=======================================
 (define (list-of-all? predicate lst)
