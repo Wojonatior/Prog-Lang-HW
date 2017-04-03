@@ -1,0 +1,1 @@
+("6.7" ("34dc567bdc6930b20348508a1633f1bd1a535266" . "c2de17a4e8eaaf4b74062e4e6a9b2902f99ea31a") (collects #"errortrace" #"errortrace-key.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"rackunit" #"main.rkt") (collects #"rackunit" #"text-ui.rkt"))
